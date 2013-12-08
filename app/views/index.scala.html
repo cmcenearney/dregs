@@ -1,0 +1,74 @@
+@(title: String)
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@title</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width" name="viewport">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+    <script src="@routes.Assets.at("javascripts/jquery-1.10.2.min.js")" type="text/javascript"></script>
+
+    </head>
+<body>
+<div id="frame">
+    <div id="header">
+        <h1>D<span class="small-caps">REG</span>S</h1>
+        <h3>A Java regular expression editor *</h3>
+    </div>
+
+    <div id="content">
+
+        <div id="main-form">
+
+               <!-- <form accept-charset="UTF-8" action="" id="test_form" method="post">
+                   -->
+                    <div style="margin:0;padding:0;display:inline">
+                        <input name="utf8" type="hidden" value="&#x2713;" />
+                        <input name="authenticity_token" type="hidden" value="wcqvv4+Yw5KHF+wmFDHTR16MEhEHs6ScvIArpknQvqs=" />
+                    </div>
+
+                    <label for="test">Test string:</label>
+                    <textarea cols="53" id="test" name="test" rows="2" tabindex="2"></textarea>
+
+
+                    <label id="regex_label" for="regex">Regular expression:</label><br />
+
+                    <span class="quote">"</span>
+                     <input type="text" id="regex" name="search" size="69" tabindex="3"/>
+                    <span class="quote">"</span>
+
+        <label class="fine-print" title="Dregs emulates standard IDE behavior, where backslashes in String literals must be escaped.
+Check here to turn this off and allow unescaped '\', for Groovy emulation of just 'cuz.">
+        Allow unescaped "\"  <input id="allowUnescaped" name="escapes" type="checkbox" tabindex="4" /></label>
+        <br />
+
+
+                      <label for="results">Results:</label>
+                        <div id="results">
+                        <br /><br />
+                        </div>
+
+
+                <!--</form>-->
+        </div><!-- close main-form -->
+
+        <!-- <div id="footer">
+
+           * and shameless Rubular rip-off
+
+         </div>
+       -->
+
+        <p style="visibility:hidden;"><br><br><br><br><br><br><br><br></p>
+
+
+    </div><!-- close content -->
+
+</div><!-- close frame -->
+
+<script src="@routes.Assets.at("javascripts/dregs.js")" type="text/javascript"></script>
+</body>
+</html>
