@@ -30,6 +30,9 @@ public class Dregs {
         Matcher m = regex.matcher(str);
         int nonMatchCntr = 0;
         int endOfMatchCntr = 0;
+        if (!m.find()){
+            return;
+        }
         while (m.find()){
             //System.out.println(m.group());
             if (m.start() >= nonMatchCntr){

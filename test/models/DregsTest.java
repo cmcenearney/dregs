@@ -13,4 +13,11 @@ public class DregsTest {
         String expected = "<span class=\"highlighted\">th</span><span class=\"highlighted\">is</span> <span class=\"highlighted\">is</span> <span class=\"highlighted\">re</span><span class=\"highlighted\">al</span> <span class=\"highlighted\">yo</span>";
         assertEquals(expected, d.outputHtml());
     }
+
+    @Test
+    public void noMatches(){
+        Dregs d = new Dregs("bcbcbcbcddd","\\w+");
+        d.performRegex();
+        System.out.println(d.outputHtml());
+    }
 }

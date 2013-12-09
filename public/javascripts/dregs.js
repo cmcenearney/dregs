@@ -7,7 +7,7 @@ $("#test").keyup(function(event) {
 });
 
 $('input[name=allowUnescaped]').change(function(){
-    leapIntoAction();
+  leapIntoAction();
 });
 
 function leapIntoAction(){
