@@ -146,3 +146,9 @@ textarea, input {
 #footer {
     margin-bottom:4px;
 }
+
+a:link {color:#6A3737;}     /* unvisited link */
+a:visited {color:#6A3737;}  /* visited link */
+a:hover {color:#ff8536;}    /* mouse over link */
+a:active {color:#6A3737;}   /* selected link */
+

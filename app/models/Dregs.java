@@ -31,21 +31,16 @@ public class Dregs {
         int nonMatchCntr = 0;
         int endOfMatchCntr = 0;
         while (m.find()){
-            //System.out.println(m.group());
             if (m.start() >= nonMatchCntr){
                 String nonMatched = str.substring(nonMatchCntr, m.start());
                 output.add(new DregsNode(nonMatched, false));
-                //System.out.println("not matched: " + nonMatched);
                 nonMatchCntr = m.end();
             }
-            //System.out.println("start position: " + m.start());
-            //System.out.println("end position: " + ( (Integer) m.end() - 1)  );
             String matched = str.substring(m.start(), m.end());
-            //System.out.println("matched: " + matched);
             output.add(new DregsNode(matched,true));
             endOfMatchCntr = m.end();
         }
-        if (endOfMatchCntr != str.length()){
+        if (endOfMatchCntr != str.length() && output.size() >= 1){
             String last = str.substring(endOfMatchCntr, str.length());
             output.add(new DregsNode(last,false));
         }
@@ -54,7 +49,7 @@ public class Dregs {
     public String outputHtml(){
         String html = "";
         for (DregsNode d : output){
-            String outputReady = StringUtils.replaceEach(d.getValue(), new String[]{"&", "\"", "<", ">"}, new String[]{"&amp;", "&quot;", "&lt;", "&gt;"}) ;
+            String outputReady = StringUtils.replaceEach(d.getValue(), new String[]{"&", "\"", "<", ">", " "}, new String[]{"&amp;", "&quot;", "&lt;", "&gt;", "&nbsp;"}) ;
             if (d.isHighlighted()){
                 html += "<span class=\"highlighted\">" + outputReady + "</span>";
             }

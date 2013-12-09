@@ -62,7 +62,11 @@ function passTheDregs(regexStr) {
           dataType: 'html',
           success: function( data ) {
             resultsOk();
-            $("#results").html(data);
+            if (data == "" || data == null){
+                 $("#results").html("<br/>");
+            } else {
+                $("#results").html(data);
+            }
           },
           error: function( jqXHR, textStatus, errorThrown ) {
             resultsNoGuut();
