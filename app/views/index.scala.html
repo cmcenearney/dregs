@@ -23,36 +23,18 @@
 
         <div id="main-form">
 
-               <!-- <form accept-charset="UTF-8" action="" id="test_form" method="post">
-                   -->
-                    <div style="margin:0;padding:0;display:inline">
-                        <input name="utf8" type="hidden" value="&#x2713;" />
-                        <input name="authenticity_token" type="hidden" value="wcqvv4+Yw5KHF+wmFDHTR16MEhEHs6ScvIArpknQvqs=" />
-                    </div>
 
-                    <label for="test">Test string:</label>
-                    <textarea cols="53" id="test" name="test" rows="2" tabindex="2"></textarea>
+<table  id="test_form">
 
+<tr><td></td> <td>Test string:</td><td></td></tr>
+<tr><td></td> <td><textarea width="100%" id="test" name="test" rows="2" tabindex="1"></textarea></td><td></td></tr>
+<tr><td></td> <td><label id="regex_label" for="regex">Regular expression:</label></td>               <td></td></tr>
+<tr><td>" </td><td><input type="text" id="regex" width="531px" name="search" width="100%" tabindex="2"/></td>          <td>"</td></tr>
+<tr><td></td> <td><label class="fine-print" title="">Allow unescaped "\"  <input id="allowUnescaped" name="allowUnescaped" type="checkbox" tabindex="3" /></label></td><td></td></tr>
+<tr><td></td> <td><label for="results">Matches:</label></td>                                         <td></td></tr>
+<tr><td></td> <td><div id="results"><br /></div></td>                                                <td></td></tr>
 
-                    <label id="regex_label" for="regex">Regular expression:</label><br />
-
-                    <span class="quote">"</span>
-                     <input type="text" id="regex" name="search" size="69" tabindex="3"/>
-                    <span class="quote">"</span>
-
-        <label class="fine-print" title="Dregs emulates standard IDE behavior, where backslashes in String literals must be escaped.
-Check here to turn this off and allow unescaped '\', for Groovy emulation of just 'cuz.">
-        Allow unescaped "\"  <input id="allowUnescaped" name="escapes" type="checkbox" tabindex="4" /></label>
-        <br />
-
-
-                      <label for="results">Results:</label>
-                        <div id="results">
-                        <br /><br />
-                        </div>
-
-
-                <!--</form>-->
+</table>
         </div><!-- close main-form -->
 
         <!-- <div id="footer">

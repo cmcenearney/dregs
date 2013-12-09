@@ -1,4 +1,16 @@
 $("#regex").keyup(function(event) {
+  leapIntoAction();
+});
+
+$("#test").keyup(function(event) {
+  leapIntoAction();
+});
+
+$('input[name=allowUnescaped]').change(function(){
+    leapIntoAction();
+});
+
+function leapIntoAction(){
   if ( $("#allowUnescaped").is(':checked') ) {
     backslashOk();
     passTheDregs( $("#regex").val() );
@@ -6,7 +18,7 @@ $("#regex").keyup(function(event) {
     if ( $("#regex").val().length == 0 ) {
         backslashOk();
         resultsOk();
-        $("#results").html("<br /><br />");
+        $("#results").html("<br />");
     }
     else if (getEscapedRegex() != "") {
         backslashOk();
@@ -16,10 +28,10 @@ $("#regex").keyup(function(event) {
         backslashNoGuut();
     }
   }
-});
+};
 
 function backslashOk() {
-    $("#regex").css( "background-color", "#ffffff" )
+    $("#regex").css( "background-color", "#ffeedd" )
 };
 
 function backslashNoGuut() {
@@ -27,7 +39,7 @@ function backslashNoGuut() {
 };
 
 function resultsOk() {
-    $("#results").css( "background-color", "#ffffff" )
+    $("#results").css( "background-color", "#ffeedd" )
 };
 
 function resultsNoGuut() {
@@ -39,6 +51,7 @@ function passTheDregs(regexStr) {
       dregs.searchString = $("#test").val();
       dregs.regex = regexStr;
       if (dregs.searchString.length==0 || dregs.regex.length==0) {
+      $("#results").html("<br />");
         return;
       }
       $.ajax({
@@ -94,14 +107,3 @@ function areBackslashesEscaped() {
     }
     return true;
 };
-
-/*
-onKeyPress:
-  if (emulateIDE is enabled) { //this means unescaped "\" not allowed
-     parse the regex and if there is an unescaped \ alert
-     else if it'sfine
-       send to server
-  else // unescaped "\" allowed
-     send to server
-
-*/
