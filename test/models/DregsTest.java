@@ -15,7 +15,7 @@ public class DregsTest {
     }
 
     @Test
-         public void basicCharMatch(){
+    public void basicCharMatch(){
         Dregs d = new Dregs("abc", "a");
         d.performRegex();
         String expected = "<span class=\"highlighted\">a</span>bc";
@@ -29,5 +29,6 @@ public class DregsTest {
         String expected = "";
         assertEquals(expected, d.outputHtml());
     }
+
 
 }

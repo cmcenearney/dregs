@@ -35,6 +35,9 @@ public class Dregs extends Model{
         Matcher m = regex.matcher(str);
         int nonMatchCntr = 0;
         int endOfMatchCntr = 0;
+        if (!m.find()){
+            return;
+        }
         while (m.find()){
             if (m.start() >= nonMatchCntr){
                 String nonMatched = str.substring(nonMatchCntr, m.start());
