@@ -1,14 +1,10 @@
 package controllers;
 
 import org.codehaus.jackson.JsonNode;
-import play.*;
-import play.api.templates.Html;
+import org.codehaus.jackson.node.ObjectNode;
+import play.libs.Json;
 import play.mvc.*;
 
-import views.html.*;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -17,25 +13,33 @@ public class DregsController extends Controller {
     @BodyParser.Of(BodyParser.Json.class)
     public static Result processDregs(){
         JsonNode json = request().body().asJson();
-        String str = json.findPath("searchString").getTextValue();
-        String regexStr = json.findPath("regex").getTextValue();
+        String searchStr = json.findPath("searchStr").getTextValue();
+        String regexStr = json.findPath("regexStr").getTextValue();
+        Integer msgIndex;
+        try {
+            msgIndex = json.findPath("msgIndex").asInt();
+        } catch (Exception e) {
+            msgIndex = -1;
+            e.printStackTrace();
+        }
+
+        ObjectNode result = Json.newObject();
+        result.put("msgIndex", msgIndex);
+
         try {
             Pattern regex = Pattern.compile(regexStr);
-            models.Dregs dregs = new models.Dregs(str, regex);
+            models.Dregs dregs = new models.Dregs(searchStr, regex);
             dregs.performRegex();
-            return ok(String.format(dregs.outputHtml()));
+            result.put("responseHtml", dregs.outputHtml());
+            return ok(result);
         } catch (PatternSyntaxException e) {
-            return badRequest(e.getMessage());
+            result.put("responseHtml", e.getMessage());
+            return badRequest(result);
         }
-        /*
-        System.out.println(regexStr);
-        System.out.println(regex.toString());
-        models.Dregs dregs = new models.Dregs(str, regex);
-        dregs.performRegex();
-        String s = dregs.outputHtml();
-        System.out.println(dregs.outputHtml());
-        return ok(String.format(dregs.outputHtml()));
-        return ok(String.format("Got it!"));
-        */
+
+    }
+
+    public static Result retrieve(Long id){
+        return TODO;
     }
 }

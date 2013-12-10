@@ -11,14 +11,6 @@ public class DregsNode {
         this.highlighted = highlighted;
     }
 
-    //methods
-    public String output(){
-        String o = "";
-        return o;
-    }
-
-
-
     //getters + setters
     public boolean isHighlighted() {
         return highlighted;

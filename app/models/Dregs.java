@@ -2,16 +2,20 @@ package models;
 
 import org.apache.commons.lang3.StringUtils;
 
+import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import play.db.ebean.Model;
 
-public class Dregs {
 
-    private String str;
-    private String regexString;
-    private Pattern regex;
-    private LinkedList<DregsNode> output = new LinkedList<DregsNode>();
+public class Dregs extends Model{
+
+    public Long id;
+    public String str;
+    public String regexString;
+    public Pattern regex;
+    public LinkedList<DregsNode> output = new LinkedList<DregsNode>();
 
 
     public Dregs(String str, String regexString){
@@ -23,6 +27,7 @@ public class Dregs {
     public Dregs(String str, Pattern regex){
         this.str = str;
         this.regex = regex;
+        this.regexString = regex.pattern();
     }
 
 

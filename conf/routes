@@ -3,14 +3,17 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                                controllers.Application.index()
 
 # test page
-GET     /test                          controllers.Application.test()
+GET     /dregs/:id                       controllers.DregsController.retrieve(id: Long)
 
 
-# REST resource to return matches for a Dregs regex
+# the main REST channel - receive from browser, return matches
 POST     /dregs                           controllers.DregsController.processDregs()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file                    controllers.Assets.at(path="/public", file)
+
+# test page
+GET     /test                            controllers.Application.test()

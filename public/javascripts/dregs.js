@@ -1,113 +1,134 @@
-$("#regex").keyup(function(event) {
-  leapIntoAction();
-});
 
-$("#test").keyup(function(event) {
-  leapIntoAction();
-});
+Dregs = {
 
-$('input[name=allowUnescaped]').change(function(){
-    leapIntoAction();
-});
+  //attributes
+  
+  lastMsgOut: 0,
+  inputBgColor: "#ffeedd",
+  alertColor: "#ff9898",
+  regexInputElement: $("#regex"),
+  resultsElement: $("#results"),
+  responseBuffer: "",  //use to capture repsonse objects for debugging
 
-function leapIntoAction(){
-  if ( $("#allowUnescaped").is(':checked') ) {
-    backslashOk();
-    passTheDregs( $("#regex").val() );
-  } else {
-    if ( $("#regex").val().length == 0 ) {
-        backslashOk();
-        resultsOk();
-        $("#results").html("<br />");
+  //methods
+  
+  regexInputAlert: function() {
+    this.regexInputElement.css( "background-color", this.alertColor );
+  },
+  
+  regexInputOk: function() {
+    this.regexInputElement.css( "background-color", this.inputBgColor );
+  },
+
+  resultsAlert: function() {
+    this.resultsElement.css( "background-color", this.alertColor );
+  },
+  
+  resultsOk: function() {
+    this.resultsElement.css( "background-color", this.inputBgColor );
+  },
+
+  getRegexStr: function() {
+    regexStr =  $("#regex").val();
+    if ( !$("#allowUnescaped").is(':checked') ) {
+            var i=0;
+            var escapedRegex = "";
+            while (i < regexStr.length) {
+                var char = regexStr.charAt(i);
+                escapedRegex += char;
+                if (char == "\\") {
+                    if (regexStr.charAt(i+1) == "\\") {
+                        i += 2;
+                    } else {
+                        return "";
+                    }
+                } else {
+                    i ++;
+                }
+            }
+            return escapedRegex;
+    } else {
+        return regexStr;
     }
-    else if (getEscapedRegex() != "") {
-        backslashOk();
-        passTheDregs(getEscapedRegex());
+  },
+
+  handleSuccessfulResponse: function( data, textStatus, jqXHR ){
+    // debugging:
+    /*
+    console.log("successful request");
+    console.log(jqXHR);
+    this.responseBuffer = data;
+    */
+    if (data.msgIndex == this.lastMsgOut){
+        responseHtml = data.responseHtml;
+        this.resultsOk();
+        if (responseHtml == "" || responseHtml == null){
+            $("#results").html("<br/>");
+        } else {
+            $("#results").html(responseHtml);
+        }
+    } else {
+        console.log("too slow: " + data.msgIndex);
     }
-    else {
-        backslashNoGuut();
-    }
-  }
-};
 
-function backslashOk() {
-    $("#regex").css( "background-color", "#ffeedd" )
-};
+  },
 
-function backslashNoGuut() {
-    $("#regex").css( "background-color", "#ff9898" )
-};
+  handleErringResponse: function( jqXHR, textStatus, errorThrown ){
+    // debugging:
+    /*
+    console.log("erring request");
+    console.log(jqXHR);
+    this.responseBuffer = jqXHR;
+    */
+    this.resultsAlert();
+    $("#results").html(jqXHR.responseJSON.responseHtml);
+  },
 
-function resultsOk() {
-    $("#results").css( "background-color", "#ffeedd" )
-};
+  test: function() {console.log(this.getRegexStr())},
 
-function resultsNoGuut() {
-    $("#results").css( "background-color", "#ff9898" )
-};
-
-function passTheDregs(regexStr) {
-      dregs = new Object();
-      dregs.searchString = $("#test").val();
-      dregs.regex = regexStr;
-      if (dregs.searchString.length==0 || dregs.regex.length==0) {
+  processInput: function() {
+    _Dregs = this;
+    msg = new Object();
+    msg.searchStr = $("#test").val();
+    msg.regexStr = this.getRegexStr();
+    msg.msgIndex = ++this.lastMsgOut;
+    if (msg.searchStr.length==0 || msg.regexStr.length==0) {
       $("#results").html("<br />");
-        return;
-      }
-      $.ajax({
-          url: "/dregs",
-          type: 'POST',
-          contentType: 'application/json',
-          data: JSON.stringify(dregs),
-          dataType: 'html',
-          success: function( data ) {
-            resultsOk();
-            if (data == "" || data == null){
-                 $("#results").html("<br/>");
-            } else {
-                $("#results").html(data);
-            }
-          },
-          error: function( jqXHR, textStatus, errorThrown ) {
-            resultsNoGuut();
-            $("#results").html(jqXHR.responseText);
-          }
-      });
+      return;
+    }
+    $.ajax({
+        url: "/dregs",
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(msg),
+        dataType: 'json',
+        success: function( data, textStatus, jqXHR  ) {
+           _Dregs.handleSuccessfulResponse( data, textStatus, jqXHR );
+        },
+        error: function( jqXHR, textStatus, errorThrown ) {
+          _Dregs.handleErringResponse( jqXHR, textStatus, errorThrown );
+        }
+    });
+  }
+
 };
 
-function getEscapedRegex() {
-    regexStr =  $("#regex").val();
-    var i=0;
-    var escapedRegex = "";
-    while (i < regexStr.length) {
-        var char = regexStr.charAt(i);
-        escapedRegex += char;
-        if (char == "\\") {
-            if (regexStr.charAt(i+1) == "\\") {
-                i += 2;
-            } else {
-                return "";
-            }
-        } else {
-            i ++;
-        }
-    }
-    return escapedRegex;
-};
 
-function areBackslashesEscaped() {
-    regexStr =  $("#regex").val();
-    var i=0;
-    while (i < regexStr.length) {
-        if (regexStr.charAt(i) == "\\") {
-            if (regexStr.charAt(i+1) == "\\") {
-                i += 2;
-            } else {
-                return false;
-            }
-        } else {
-            i++;
-        }
-    }
-    return true;
-};
+/*
+wire up the Dregs object to some dom listeners
+*/
+$( document ).ready(function() {
+  
+  $("#regex").keyup(function(event) {
+    Dregs.processInput();
+  });
+
+  $("#test").keyup(function(event) {
+    Dregs.processInput();
+  });
+
+  $('input[name=allowUnescaped]').change(function(){
+    Dregs.processInput();
+  });
+
+});
