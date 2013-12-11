@@ -63,7 +63,7 @@ body {
   background-repeat:no-repeat;
   background-position: left top;
 
-  width:1200px;
+  width:970px;
   margin: 0px auto;
   padding: 0px;
   border: 5px solid #F9AD20;
@@ -77,10 +77,14 @@ h1 {
   font-size: 8em;
   margin-bottom: 8px;
 }
-.small-caps
-{
-font-variant:small-caps;
-font-size: 0.7em;
+.small-caps {
+    font-variant:small-caps;
+    font-size: 0.7em;
+}
+
+#content {
+    text-align: left;
+    margin-top: 64px;
 }
 
 #main-form {
@@ -94,27 +98,11 @@ font-size: 0.7em;
     line-height: 1.8em;
 }
 
-#main-form label {
-    margin-bottom:4px;
-}
-
-#test_form {
-    width: 580px;
-    margin:0px;
-}
-
 #results {
     border: 1px solid #898989;
-    width: 100%;
 }
 
-#test {
-    width: 100%;
-}
 
-#regex {
-    width: 555px;
-}
 
 #regex, #test, #results {
     color: #111;
@@ -135,7 +123,7 @@ font-size: 0.7em;
     margin:6px;
 }
 
-.fine-print{
+.fine-print {
     font-size: 75%;
 }
 
