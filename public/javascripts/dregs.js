@@ -135,7 +135,8 @@ Dregs = {
 
 
 /*
-wire up the Dregs object to some DOM listeners
+wire up the Dregs object to some DOM listeners,
+enable tooltip(s)
 */
 $( document ).ready(function() {
   
@@ -149,6 +150,10 @@ $( document ).ready(function() {
 
   $('input[name=allowUnescaped]').change(function(){
     Dregs.processInput();
+  });
+
+  $("#allowUnescapedLabel").tooltip({
+    delay: { show: 500, hide: 100 }
   });
 
 });
