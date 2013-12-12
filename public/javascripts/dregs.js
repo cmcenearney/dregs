@@ -81,7 +81,7 @@ Dregs = {
         this.regexInputOk();
         if ($("#regex").val().length==0 || $("#test").val().length==0) {
             this.resultsOk();
-            $("#results").html("<br />");
+            $("#results").html("<br /><br />");
             return;
         } else {
             this.sendToServer();
@@ -116,7 +116,7 @@ Dregs = {
           responseHtml = data.responseHtml;
           this.resultsOk();
           if (responseHtml == "" || responseHtml == null){
-              $("#results").html("<br/>");
+              $("#results").html("<br/><br />");
           } else {
               $("#results").html(responseHtml);
           }

@@ -1,9 +1,9 @@
 Dregs
 =====
 
-A regular expression editor for Java, and shameless Rubular rip-off.
+A regular expression editor for Java.
 
-Using this to play around with Play! framework, but it might turn into something useful...
+Built with the Play! framework.
 
 Deployed on heroku at http://www.dregs.info
 
