@@ -3,21 +3,21 @@ package models;
 public class DregsNode {
 
     private String value;
-    private boolean highlighted;
+    private boolean match;
 
     //constructors
-    public DregsNode(String value, boolean highlighted) {
+    public DregsNode(String value, boolean match) {
         this.value = value;
-        this.highlighted = highlighted;
+        this.match = match;
     }
 
     //getters + setters
-    public boolean isHighlighted() {
-        return highlighted;
+    public boolean isMatch() {
+        return match;
     }
 
-    public void setHighlighted(boolean highlighted) {
-        this.highlighted = highlighted;
+    public void setMatch(boolean match) {
+        this.match = match;
     }
 
     public String getValue() {

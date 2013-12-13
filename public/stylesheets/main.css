@@ -110,8 +110,9 @@ h1 {
     background-color:#ffeedd;
 }
 
-.highlighted {
+.match {
     background-color: #121212;
+    border: 1px solid #FFFFFF;
     color: #e2e2e2;
 }
 

@@ -31,9 +31,10 @@ public class DregsController extends Controller {
             models.Dregs dregs = new models.Dregs(searchStr, regex);
             dregs.performRegex();
             result.put("responseHtml", dregs.outputHtml());
+            result.put("dregsNodes", dregs.outputJSON());
             return ok(result);
         } catch (PatternSyntaxException e) {
-            result.put("responseHtml", e.getMessage());
+            result.put("errorMessage", e.getMessage());
             return badRequest(result);
         }
 

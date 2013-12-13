@@ -6,7 +6,13 @@ import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.node.ObjectNode;
 import play.db.ebean.Model;
+import play.libs.Json;
 
 
 public class Dregs extends Model{
@@ -15,7 +21,7 @@ public class Dregs extends Model{
     public String str;
     public String regexString;
     public Pattern regex;
-    public LinkedList<DregsNode> output = new LinkedList<DregsNode>();
+    public LinkedList<DregsNode> dregsNodes = new LinkedList<DregsNode>();
 
 
     public Dregs(String str, String regexString){
@@ -38,25 +44,36 @@ public class Dregs extends Model{
         while (m.find()){
             if (m.start() >= nonMatchCntr){
                 String nonMatched = str.substring(nonMatchCntr, m.start());
-                output.add(new DregsNode(nonMatched, false));
+                dregsNodes.add(new DregsNode(nonMatched, false));
                 nonMatchCntr = m.end();
             }
             String matched = str.substring(m.start(), m.end());
-            output.add(new DregsNode(matched,true));
+            dregsNodes.add(new DregsNode(matched,true));
             endOfMatchCntr = m.end();
         }
-        if (endOfMatchCntr != str.length() && output.size() >= 1){
+        if (endOfMatchCntr != str.length() && dregsNodes.size() >= 1){
             String last = str.substring(endOfMatchCntr, str.length());
-            output.add(new DregsNode(last,false));
+            dregsNodes.add(new DregsNode(last,false));
         }
+    }
+
+    public ArrayNode outputJSON(){
+        ArrayNode json = new ArrayNode(JsonNodeFactory.instance);
+        for (DregsNode n : dregsNodes) {
+            ObjectNode node = Json.newObject();
+            node.put("value", n.getValue());
+            node.put("isMatch", n.isMatch());
+            json.add(node);
+        }
+        return json;
     }
 
     public String outputHtml(){
         String html = "";
-        for (DregsNode d : output){
+        for (DregsNode d : dregsNodes){
             String outputReady = StringUtils.replaceEach(d.getValue(), new String[]{"&", "\"", "<", ">", " "}, new String[]{"&amp;", "&quot;", "&lt;", "&gt;", "&nbsp;"}) ;
-            if (d.isHighlighted()){
-                html += "<span class=\"highlighted\">" + outputReady + "</span>";
+            if (d.isMatch()){
+                html += "<span class=\"match\">" + outputReady + "</span>";
             }
             else {
                 html += outputReady;

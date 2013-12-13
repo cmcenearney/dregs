@@ -1,8 +1,7 @@
-
 Dregs = {
 
   //attributes
-  
+
   lastMsgOut: 0,
   inputBgColor: "#ffeedd",
   alertColor: "#ff9898",
@@ -11,125 +10,124 @@ Dregs = {
 
 
   //methods
-  
-  regexInputAlert: function() {
-    this.regexInputElement.css( "background-color", this.alertColor );
-  },
-  
-  regexInputOk: function() {
-    this.regexInputElement.css( "background-color", this.inputBgColor );
+
+  setRegexInputAlert: function() {
+    this.regexInputElement.css("background-color", this.alertColor);
   },
 
-  resultsAlert: function() {
-    this.resultsElement.css( "background-color", this.alertColor );
-  },
-  
-  resultsOk: function() {
-    this.resultsElement.css( "background-color", this.inputBgColor );
+  setRegexInputOk: function() {
+    this.regexInputElement.css("background-color", this.inputBgColor);
   },
 
-  backslashesOK: function () {
-     if ($("#allowUnescaped").is(':checked')){
-        return true;
-     }
-      regexStr =  $("#regex").val();
-      var i=0;
-      while (i < regexStr.length) {
-          if (regexStr.charAt(i) == "\\") {
-              if (regexStr.charAt(i+1) == "\\") {
-                   i += 2;
-              } else {
-                    return false;
-              }
-          } else {
-              i++;
-          }
-      }
+  setResultsAlert: function() {
+    this.resultsElement.css("background-color", this.alertColor);
+  },
+
+  setResultsOk: function() {
+    this.resultsElement.css("background-color", this.inputBgColor);
+  },
+
+  backslashesOK: function() {
+    if ($("#allowUnescaped").is(':checked')) {
       return true;
+    }
+    regexStr = $("#regex").val();
+    var i = 0;
+    while (i < regexStr.length) {
+      if (regexStr.charAt(i) == "\\") {
+        if (regexStr.charAt(i + 1) == "\\") {
+          i += 2;
+        } else {
+          return false;
+        }
+      } else {
+        i++;
+      }
+    }
+    return true;
   },
-
 
   getRegexStr: function() {
-    regexStr =  $("#regex").val();
-    if ( !$("#allowUnescaped").is(':checked') ) {
-            var i=0;
-            var escapedRegex = "";
-            while (i < regexStr.length) {
-                var char = regexStr.charAt(i);
-                escapedRegex += char;
-                if (char == "\\") {
-                    if (regexStr.charAt(i+1) == "\\") {
-                        i += 2;
-                    } else {
-                        return "";
-                    }
-                } else {
-                    i ++;
-                }
-            }
-            return escapedRegex;
+    regexStr = $("#regex").val();
+    if (!$("#allowUnescaped").is(':checked')) {
+      var i = 0;
+      var escapedRegex = "";
+      while (i < regexStr.length) {
+        var char = regexStr.charAt(i);
+        escapedRegex += char;
+        if (char == "\\") {
+          if (regexStr.charAt(i + 1) == "\\") {
+            i += 2;
+          } else {
+            return "";
+          }
+        } else {
+          i++;
+        }
+      }
+      return escapedRegex;
     } else {
-        return regexStr;
+      return regexStr;
     }
   },
 
   processInput: function() {
     if (!this.backslashesOK()) {
-        this.regexInputAlert();
-        return;
+      this.setRegexInputAlert();
+      return;
     } else {
-        this.regexInputOk();
-        if ($("#regex").val().length==0 || $("#test").val().length==0) {
-            this.resultsOk();
-            $("#results").html("<br /><br />");
-            return;
-        } else {
-            this.sendToServer();
-            return;
-        }
+      this.setRegexInputOk();
+      if ($("#regex").val().length == 0 || $("#test").val().length == 0) {
+        this.setResultsOk();
+        $("#results").html("<br /><br />");
+        return;
+      } else {
+        this.sendToServer();
+        return;
+      }
     }
   },
 
   sendToServer: function() {
-      _Dregs = this;
-      msg = new Object();
-      msg.searchStr = $("#test").val();
-      msg.regexStr = this.getRegexStr();
-      msg.msgIndex = ++this.lastMsgOut;
-      $.ajax({
-          url: "/dregs",
-          type: 'POST',
-          contentType: 'application/json',
-          data: JSON.stringify(msg),
-          dataType: 'json',
-          success: function( data, textStatus, jqXHR  ) {
-             _Dregs.handleSuccessfulResponse( data, textStatus, jqXHR );
-          },
-          error: function( jqXHR, textStatus, errorThrown ) {
-            _Dregs.handleErringResponse( jqXHR, textStatus, errorThrown );
-          }
-      });
+    _Dregs = this;
+    msg = new Object();
+    msg.searchStr = $("#test").val();
+    msg.regexStr = this.getRegexStr();
+    msg.msgIndex = ++this.lastMsgOut;
+    $.ajax({
+      url: "/dregs",
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(msg),
+      dataType: 'json',
+      success: function(data, textStatus, jqXHR) {
+        _Dregs.handleSuccessfulResponse(data, textStatus, jqXHR);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        _Dregs.handleErringResponse(jqXHR, textStatus, errorThrown);
+      }
+    });
   },
 
-    handleSuccessfulResponse: function( data, textStatus, jqXHR ){
-      if (data.msgIndex == this.lastMsgOut){
-          responseHtml = data.responseHtml;
-          this.resultsOk();
-          if (responseHtml == "" || responseHtml == null){
-              $("#results").html("<br/><br />");
-          } else {
-              $("#results").html(responseHtml);
-          }
+  handleSuccessfulResponse: function(data, textStatus, jqXHR) {
+    if (data.msgIndex == this.lastMsgOut) {
+      responseHtml = data.responseHtml;
+      this.setResultsOk();
+      if (responseHtml == "" || responseHtml == null) {
+        $("#results").html("<br/><br />");
       } else {
-          console.log("too slow: " + data.msgIndex);
+        $("#results").html(responseHtml);
       }
-
-    },
-
-    handleErringResponse: function( jqXHR, textStatus, errorThrown ){
-      this.resultsAlert();
-      $("#results").html(jqXHR.responseJSON.responseHtml);
+    } else {
+      console.log("too slow: " + data.msgIndex);
     }
+
+  },
+
+  handleErringResponse: function(jqXHR, textStatus, errorThrown) {
+    this.setResultsAlert();
+    $("#results").html(jqXHR.responseJSON.errorMessage);
+  }
 
 };
 
@@ -138,8 +136,8 @@ Dregs = {
 wire up the Dregs object to some DOM listeners,
 enable tooltip(s)
 */
-$( document ).ready(function() {
-  
+$(document).ready(function() {
+
   $("#regex").keyup(function(event) {
     Dregs.processInput();
   });
@@ -148,12 +146,15 @@ $( document ).ready(function() {
     Dregs.processInput();
   });
 
-  $('input[name=allowUnescaped]').change(function(){
+  $('input[name=allowUnescaped]').change(function() {
     Dregs.processInput();
   });
 
   $("#allowUnescapedLabel").tooltip({
-    delay: { show: 500, hide: 100 }
+    delay: {
+      show: 500,
+      hide: 100
+    }
   });
 
 });
