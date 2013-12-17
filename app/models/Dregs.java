@@ -1,5 +1,8 @@
 package models;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -7,22 +10,19 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.ArrayNode;
-import org.codehaus.jackson.node.JsonNodeFactory;
-import org.codehaus.jackson.node.ObjectNode;
 import play.db.ebean.Model;
 import play.libs.Json;
 
-
+@Entity
 public class Dregs extends Model{
 
+    @Id
     public Long id;
     public String str;
     public String regexString;
     public Pattern regex;
     public LinkedList<DregsNode> dregsNodes = new LinkedList<DregsNode>();
-
+    public boolean allowUnescaped = false;
 
     public Dregs(String str, String regexString){
         this.str = str;
@@ -36,6 +36,9 @@ public class Dregs extends Model{
         this.regexString = regex.pattern();
     }
 
+    public static String escapeBackslashes(String s){
+        return StringUtils.replaceEach(s, new String[]{"\\"}, new String[]{"\\\\"}) ;
+    }
 
     public void performRegex(){
         Matcher m = regex.matcher(str);

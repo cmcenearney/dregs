@@ -7,7 +7,7 @@ Dregs = {
   alertColor: "#ff9898",
   regexInputElement: $("#regex"),
   resultsElement: $("#results"),
-
+  allowUnescaped: false,
 
   //methods
 
@@ -28,7 +28,7 @@ Dregs = {
   },
 
   backslashesOK: function() {
-    if ($("#allowUnescaped").is(':checked')) {
+    if ( this.allowUnescaped ) {
       return true;
     }
     regexStr = $("#regex").val();
@@ -72,6 +72,7 @@ Dregs = {
   },
 
   processInput: function() {
+    this.allowUnescaped = $("#allowUnescaped").is(':checked');
     if (!this.backslashesOK()) {
       this.setRegexInputAlert();
       return;
@@ -88,14 +89,18 @@ Dregs = {
     }
   },
 
-  sendToServer: function() {
+  sendToServer: function(url) {
+    if (url == null ) {
+        url = "/dregs";
+    }
     _Dregs = this;
     msg = new Object();
     msg.searchStr = $("#test").val();
     msg.regexStr = this.getRegexStr();
     msg.msgIndex = ++this.lastMsgOut;
+    msg.allowUnescaped =  this.allowUnescaped;
     $.ajax({
-      url: "/dregs",
+      url: url,
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(msg),
@@ -111,12 +116,18 @@ Dregs = {
 
   handleSuccessfulResponse: function(data, textStatus, jqXHR) {
     if (data.msgIndex == this.lastMsgOut) {
-      responseHtml = data.responseHtml;
-      this.setResultsOk();
-      if (responseHtml == "" || responseHtml == null) {
-        $("#results").html("<br/><br />");
+      if (data.savedURI != null) {
+        uri = location.origin + data.savedURI;
+        $("#saved").html("These Dregs have been saved and can be viewed at: <a href='" + uri + "'>" + uri + "</a>");
+        $("#saveButton").blur();
       } else {
-        $("#results").html(responseHtml);
+        responseHtml = data.responseHtml;
+        this.setResultsOk();
+        if (responseHtml == "" || responseHtml == null) {
+          $("#results").html("<br/><br />");
+        } else {
+          $("#results").html(responseHtml);
+        }
       }
     } else {
       console.log("too slow: " + data.msgIndex);
@@ -127,7 +138,12 @@ Dregs = {
   handleErringResponse: function(jqXHR, textStatus, errorThrown) {
     this.setResultsAlert();
     $("#results").html(jqXHR.responseJSON.errorMessage);
+  },
+
+  save: function() {
+      this.sendToServer("/dregs/save");
   }
+
 
 };
 
@@ -148,6 +164,10 @@ $(document).ready(function() {
 
   $('input[name=allowUnescaped]').change(function() {
     Dregs.processInput();
+  });
+
+  $("#saveButton").click(function(event) {
+    Dregs.save();
   });
 
   $("#allowUnescapedLabel").tooltip({
