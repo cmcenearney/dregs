@@ -56,6 +56,13 @@ body {
   color: #543534;
 }
 
+a.header {
+    text-decoration: none;
+}
+a.header:link {color:#543534;}     /* unvisited link */
+a.header:visited {color:#543534;}  /* visited link */
+a.header:hover {color:#543534;}    /* mouse over link */
+a.header:active {color:#543534;}   /* selected link */
 
 #frame {
   background-color: #ffffff;
@@ -66,7 +73,7 @@ body {
   width:970px;
   margin: 0px auto;
   padding: 0px;
-  border: 5px solid #F9AD20;
+  border: 6px solid #F9AD20;
 }
 
 #header  {
@@ -103,7 +110,15 @@ h1 {
     padding:12px;
 }
 
+.separator {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
 
+.separator-lg {
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
 
 #regex, #test, #results {
     color: #111;
@@ -129,7 +144,7 @@ h1 {
     font-size: 75%;
 }
 
-.mediumfine-print {
+    .mediumfine-print {
     font-size: 85%;
 }
 

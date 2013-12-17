@@ -1,5 +1,6 @@
 package models;
 
+import com.avaje.ebean.Ebean;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -30,5 +31,12 @@ public class DregsTest {
         assertEquals(expected, d.outputHtml());
     }
 
+
+    @Test
+    public void basicSave(){
+        Dregs d = new Dregs("abc", "\\w");
+        d.performRegex();
+        Ebean.save(d);
+    }
 
 }
