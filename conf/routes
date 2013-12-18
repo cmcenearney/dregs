@@ -16,5 +16,3 @@ POST     /dregs/save                      controllers.DregsController.saveDregs(
 # Map static resources from the /public folder to the /assets URL path
 GET      /assets/*file                    controllers.Assets.at(path="/public", file)
 
-# test page
-GET      /test                            controllers.Application.test()
