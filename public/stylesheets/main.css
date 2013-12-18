@@ -16,37 +16,37 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-	display: block;
+        display: block;
 }
 body {
-	line-height: 1;
-	padding-top:24px;
-	background-color: #743A30;
+        line-height: 1;
+        padding-top:24px;
+        background-color: #743A30;
 }
 ol, ul {
-	list-style: none;
+        list-style: none;
 }
 blockquote, q {
-	quotes: none;
+        quotes: none;
 }
 blockquote:before, blockquote:after,
 q:before, q:after {
-	content: '';
-	content: none;
+        content: '';
+        content: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+        border-collapse: collapse;
+        border-spacing: 0;
 }
 
 body {
@@ -56,6 +56,13 @@ body {
   color: #543534;
 }
 
+a.header {
+    text-decoration: none;
+}
+a.header:link {color:#543534;}     /* unvisited link */
+a.header:visited {color:#543534;}  /* visited link */
+a.header:hover {color:#543534;}    /* mouse over link */
+a.header:active {color:#543534;}   /* selected link */
 
 #frame {
   background-color: #ffffff;
@@ -66,7 +73,7 @@ body {
   width:970px;
   margin: 0px auto;
   padding: 0px;
-  border: 5px solid #F9AD20;
+  border: 6px solid #F9AD20;
 }
 
 #header  {
@@ -103,7 +110,15 @@ h1 {
     padding:12px;
 }
 
+.separator {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
 
+.separator-lg {
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
 
 #regex, #test, #results {
     color: #111;
@@ -129,7 +144,7 @@ h1 {
     font-size: 75%;
 }
 
-.mediumfine-print {
+    .mediumfine-print {
     font-size: 85%;
 }
 
@@ -148,4 +163,3 @@ a:link {color:#6A3737;}     /* unvisited link */
 a:visited {color:#6A3737;}  /* visited link */
 a:hover {color:#ff8536;}    /* mouse over link */
 a:active {color:#6A3737;}   /* selected link */
-

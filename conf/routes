@@ -3,17 +3,15 @@
 # ~~~~
 
 # Home page
-GET     /                                controllers.Application.index()
+GET      /                                controllers.Application.index()
 
 # test page
-GET     /dregs/:id                       controllers.DregsController.retrieve(id: Long)
-
+GET      /dregs/:id                       controllers.DregsController.retrieve(id: Long)
 
 # the main REST channel - receive from browser, return matches
 POST     /dregs                           controllers.DregsController.processDregs()
 
-# Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file                    controllers.Assets.at(path="/public", file)
+POST     /dregs/save                      controllers.DregsController.saveDregs()
 
-# test page
-GET     /test                            controllers.Application.test()
+# Map static resources from the /public folder to the /assets URL path
+GET      /assets/*file                    controllers.Assets.at(path="/public", file)

@@ -1,4 +1,4 @@
-@(title: String)
+@(title: String, regexStr: String, searchStr: String, matchHTML: String)
 
 <!DOCTYPE html>
 
@@ -18,80 +18,93 @@
 <body>
 <div id="frame">
 
-   <div id="header">
+    <div id="header">
         <div class="row">
-            <div class="col-md-12"><h1>D<span class="small-caps">REG</span>S</h1></div>
+            <div class="col-md-12"><h1><a class="header" href="/">D<span class="small-caps">REG</span>S</a></h1></div>
         </div>
         <div class="row">
-            <div class="col-md-12"><h3>A Java regular expression editor *</h3></div>
+            <div class="col-md-12"><h3><a class="header" href="/">A Java regular expression editor *</a></h3></div>
         </div>
     </div>
 
 
-  <div id="content">
+    <div id="content">
 
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">Test string:</div>
-        <div class="col-md-3"></div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6"><textarea id="test" name="test" rows="2" tabindex="1"></textarea></div>
-        <div class="col-md-3"></div>
-     </div>
-
-    <div class="row separator"></div>
-
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">Regular expression:</div>
-        <div class="col-md-3"></div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-1"><div class="quote" style="text-align:right; margin-right:-18px">"</div></div>
-        <div class="col-md-6"><input type="text" id="regex" autocomplete="off" name="search" tabindex="2"></div>
-        <div class="col-md-1"><div style="text-align:left; margin-left:-15px" class="quote">"</div></div>
-        <div class="col-md-2"></div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-            <form role="form" class="form-inline">
-                <div style="width:100%" class="checkbox">
-                    <label id="allowUnescapedLabel" class="fine-print"  data-placement="left" data-toggle="tooltip" data-original-title="Dregs treats the regex as a String literal and, like a Java IDE, complains when backslashes are not escaped. Check here to turn this off and allow unescaped '\', for Groovy emulation, or just 'cuz." >Allow unescaped "\": <input id="allowUnescaped" name="allowUnescaped" type="checkbox" style="width:10%; margin-left:-8px"></label>
-                </div>
-            </form>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">Test string:</div>
+            <div class="col-md-3"></div>
         </div>
-        <div class="col-md-3"></div>
-    </div>
 
-    <div class="row separator"></div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6"><textarea id="test" name="test" rows="2" tabindex="1">@searchStr</textarea></div>
+            <div class="col-md-3"></div>
+        </div>
 
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">Matches:</div>
-        <div class="col-md-3"></div>
-    </div>
+        <div class="row separator"></div>
 
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6" ><div id="results"><br><br></div></div>
-        <div class="col-md-3"></div>
-    </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">Regular expression:</div>
+            <div class="col-md-3"></div>
+        </div>
 
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-1"><div class="quote" style="text-align:right; margin-right:-18px">"</div></div>
+            <div class="col-md-6"><input type="text" id="regex" autocomplete="off" name="search" tabindex="2" value="@regexStr"></div>
+            <div class="col-md-1"><div style="text-align:left; margin-left:-15px" class="quote">"</div></div>
+            <div class="col-md-2"></div>
+        </div>
 
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <form role="form" class="form-inline">
+                    <div style="width:100%" class="checkbox">
+                        <label id="allowUnescapedLabel" class="fine-print"  data-placement="left" data-toggle="tooltip" data-original-title="Dregs treats the regex as a String literal and, like a Java IDE, complains when backslashes are not escaped. Check here to turn this off and allow unescaped '\', for Groovy emulation, or just 'cuz." >Allow unescaped "\": <input id="allowUnescaped" name="allowUnescaped" type="checkbox" style="width:10%; margin-left:-8px"></label>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
 
+        <div class="row separator"></div>
 
-    <div id="footer">
-        <span class="mediumfine-print">* and shameless <a href="http://rubular.com">Rubular</a> <strike>ripoff</strike> homage. <!--<a href="https://github.com/cmcenearney/dregs">On github</a>--></span>
-    </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">Matches:</div>
+            <div class="col-md-3"></div>
+        </div>
 
-  </div><!-- close content -->
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6" ><div id="results">@Html(matchHTML)</div></div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <div class="row separator-lg"></div>
+
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2" style="text-align:center"><button type="button" class="btn btn-default" id="saveButton">Save</button></div>
+            <div class="col-md-6"></div>
+        </div>
+
+        <div class="row separator-lg"></div>
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 mediumfine-print" style="text-align:center" id="saved"></div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <div id="footer">
+            <span class="mediumfine-print">* and unabashed <a href="http://rubular.com">Rubular</a> <strike>ripoff</strike> homage. <!--<a href="https://github.com/cmcenearney/dregs">On github</a>--></span>
+        </div>
+
+    </div><!-- close content -->
 
 
 </div><!-- close frame -->
@@ -107,5 +120,5 @@
   ga('send', 'pageview');
 
 </script>
-    </body>
+</body>
 </html>
