@@ -1,9 +1,9 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Dregs;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ObjectNode;
 import play.libs.Json;
 import play.mvc.*;
 import views.html.index;
@@ -16,8 +16,8 @@ public class DregsController extends Controller {
     @BodyParser.Of(BodyParser.Json.class)
     public static Result processDregs(){
         JsonNode json = request().body().asJson();
-        String searchStr = json.findPath("searchStr").textValue();
-        String regexStr = json.findPath("regexStr").textValue();
+        String searchStr = json.findPath("searchStr").getTextValue();
+        String regexStr = json.findPath("regexStr").getTextValue();
         Integer msgIndex;
         try {
             msgIndex = json.findPath("msgIndex").asInt();
@@ -52,8 +52,8 @@ public class DregsController extends Controller {
 
     public static Result saveDregs(){
         JsonNode json = request().body().asJson();
-        String searchStr = json.findPath("searchStr").textValue();
-        String regexStr = json.findPath("regexStr").textValue();
+        String searchStr = json.findPath("searchStr").getTextValue();
+        String regexStr = json.findPath("regexStr").getTextValue();
         Integer msgIndex = json.findPath("msgIndex").asInt();
         Dregs dregs = new Dregs(searchStr, regexStr);
         dregs.save();
