@@ -1,0 +1,1 @@
+web: target/universal/stage/bin/dregs -Dhttp.port=${PORT} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${HEROKU_POSTGRESQL_AMBER_URL}
