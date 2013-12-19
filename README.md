@@ -13,7 +13,7 @@ to-do
 
 - handle regex flags
 - list captures
-- preserve newlines through to output (as <br>?)
+- preserve newlines through to output
 - add regex "quick ref"
 - more tests
     - integration
